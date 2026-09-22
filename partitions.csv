@@ -1,0 +1,15 @@
+# CommandAGI BLE control-relay partition table — 4MB, dual-OTA, NO factory/secure-boot.
+#
+# Same re-flashability guarantees as the camera firmware: two app slots (ota_0/ota_1) for future OTA
+# with rollback, no Secure Boot / Flash Encryption so the unit can ALWAYS be re-flashed over USB. The
+# image is small (BLE only, no camera/TLS), so the 4MB layout fits both the classic ESP32 (4MB) and
+# the ESP32-S3 devkit. The `nvs` partition holds the (optional) friendly name; a factory-reset erases
+# the `cagi` NVS namespace, never the app.
+#
+# Name,     Type, SubType,  Offset,    Size,     Flags
+nvs,        data, nvs,      0x9000,    0x5000,
+otadata,    data, ota,      0xe000,    0x2000,
+app0,       app,  ota_0,    0x10000,   0x1E0000,
+app1,       app,  ota_1,    0x1F0000,  0x1E0000,
+spiffs,     data, spiffs,   0x3D0000,  0x20000,
+coredump,   data, coredump, 0x3F0000,  0x10000,
