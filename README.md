@@ -21,15 +21,15 @@ can drive the phone's UX **system-wide** — in games, DRM'd views, and other ap
 accessibility tree, and on **iOS**, where a third-party app cannot synthesize touch into other apps but
 the OS _does_ honor a paired Bluetooth pointer (AssistiveTouch).
 
-It is the hardware counterpart to the on-device Android `AccessibilityService` path
-(`apps/clients/expo-mobile-app/modules/commandagi-a11y`): where a11y works on-device (Android, apps that expose a tree),
-the relay works everywhere via raw HID. See `docs/DEVICE_CONTROL.md` in the monorepo.
+It is the hardware counterpart to the on-device Android `AccessibilityService` path:
+where accessibility works on-device (Android apps that expose a tree), the relay instead
+sends standard HID reports. Host acceptance still needs the hardware checks in [NOTES.md](NOTES.md).
 
 ## How it works
 
 ```
  CommandAGI app  ──BLE GATT write (HidControl JSON)──▶  relay  ──BLE HID reports──▶  phone OS pointer
- (apps/clients/expo-mobile-app/src/hidRelay.ts)                          (this firmware)              (system-wide)
+ (GATT client)                                              (this firmware)       (system-wide)
 ```
 
 - The relay advertises the **shared CommandAGI provisioning service** (`c0a1…0001`), so the app
@@ -37,7 +37,7 @@ the relay works everywhere via raw HID. See `docs/DEVICE_CONTROL.md` in the mono
 - It ALSO advertises the standard **HID service** (`0x1812`) + a HID-Mouse appearance, so the phone's OS
   offers to pair it as a Bluetooth input device.
 - The app connects and writes **`HidControl`** intents (the wire schema in
-  `packages/domain/core/src/deviceProvisioning.ts`) to the HID characteristic (`c0a1…0006`). The firmware maps
+  [src/control.cpp](src/control.cpp), with UUIDs in [src/config.h](src/config.h)) to the HID characteristic (`c0a1…0006`). The firmware maps
   each intent onto a raw HID report:
   - `moveTo {x,y}` → absolute-pointer report (normalized 0..1 → 0..32767)
   - `click / down / up / move / scroll` → relative-mouse report
@@ -62,7 +62,7 @@ _Make this phone available → Control my device → Connect a control relay_.
 
 | File                   | Role                                                                                     |
 | ---------------------- | ---------------------------------------------------------------------------------------- |
-| `src/config.h`         | BLE UUIDs (kept in sync with `packages/domain/core/src/deviceProvisioning.ts`), names, security |
+| `src/config.h`         | BLE UUIDs, names, security |
 | `src/hid.{h,cpp}`      | NimBLE HID device — report map (mouse + keyboard + absolute pointer) + emit helpers      |
 | `src/hidmap.{h,cpp}`   | key-name / UTF-8 char → USB HID usage codes (US layout)                                  |
 | `src/control.{h,cpp}`  | parse a `HidControl` intent JSON → HID emits                                             |

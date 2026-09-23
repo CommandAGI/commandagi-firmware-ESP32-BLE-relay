@@ -30,13 +30,10 @@ This firmware is written to the NimBLE-Arduino API and the shared `HidControl` w
 
 6. **Board LED.** `CAGI_LED_PIN` defaults to GPIO48 (S3 RGB) / GPIO2 (classic). Override per board.
 
-## Promotion to a standalone repo
+## Public repository
 
-Like the camera (`commandagi-camera`) and arm (`commandagi-robot-firmware`), this is intended to become
-its own repo added as a submodule at `apps/clients/firmware/ESP32-BLE-relay`. It currently lives in-tree (implemented
-cautiously alongside concurrent work). To promote:
-
-```bash
-gh repo create CommandAGI/commandagi-ble-relay --private --source apps/clients/firmware/ESP32-BLE-relay --push
-# then in the monorepo: remove the tracked dir and `git submodule add` the new URL at the same path
-```
+This firmware is maintained in the public
+[commandagi-firmware-ESP32-BLE-relay repository](https://github.com/CommandAGI/commandagi-firmware-ESP32-BLE-relay).
+Clone and build it using the [README](README.md); no private platform checkout is required.
+The platform mounts this repository as a submodule at
+`deployments/clients/firmware/ESP32-BLE-relay`.
