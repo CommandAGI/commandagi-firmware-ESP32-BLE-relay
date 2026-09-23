@@ -1,4 +1,19 @@
-# CommandAGI BLE Control Relay — firmware
+# ESP32-BLE-relay
+
+Part of [CommandAGI](https://commandagi.com): connecting agents to real computers, robots and
+physical environments. This repository can be cloned independently of the private platform code.
+
+```sh
+git clone https://github.com/CommandAGI/commandagi-firmware-ESP32-BLE-relay.git
+cd commandagi-firmware-ESP32-BLE-relay
+```
+
+## Validation scope
+
+The PlatformIO environments declare supported build targets. A build does not prove phone pairing,
+OS accessibility configuration or physical input behavior; record the phone/OS and board revision
+when validating those paths. This relay implements Bluetooth HID and does not require cloud access.
+
 
 The **control relay** is the cross-app / iOS pointer for CommandAGI. It's a small BLE accessory (ESP32)
 that pairs to a phone as a standard **Bluetooth HID mouse + keyboard + absolute pointer**, so an agent
@@ -57,3 +72,12 @@ _Make this phone available → Control my device → Connect a control relay_.
 | `src/main.cpp`         | boot + connection-state reporting                                                        |
 
 See `NOTES.md` for the honest hardware caveats (report-map tuning per OS, pairing, security hardening).
+
+## License
+
+[MIT](LICENSE).
+
+## Build verification (2026-09-22)
+
+All PlatformIO environments declared by this repository compiled successfully using PlatformIO
+6.2.0. This verifies compilation, not physical wiring, sensor operation or live cloud connectivity.

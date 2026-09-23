@@ -33,10 +33,10 @@ This firmware is written to the NimBLE-Arduino API and the shared `HidControl` w
 ## Promotion to a standalone repo
 
 Like the camera (`commandagi-camera`) and arm (`commandagi-robot-firmware`), this is intended to become
-its own repo added as a submodule at `apps/clients/firmware/ble-relay`. It currently lives in-tree (implemented
+its own repo added as a submodule at `apps/clients/firmware/ESP32-BLE-relay`. It currently lives in-tree (implemented
 cautiously alongside concurrent work). To promote:
 
 ```bash
-gh repo create CommandAGI/commandagi-ble-relay --private --source apps/clients/firmware/ble-relay --push
+gh repo create CommandAGI/commandagi-ble-relay --private --source apps/clients/firmware/ESP32-BLE-relay --push
 # then in the monorepo: remove the tracked dir and `git submodule add` the new URL at the same path
 ```
