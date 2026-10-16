@@ -73,6 +73,12 @@ _Make this phone available → Control my device → Connect a control relay_.
 
 See `NOTES.md` for the honest hardware caveats (report-map tuning per OS, pairing, security hardening).
 
+The channels this firmware gives are declared once, in CommandAGI's cloud seed:
+`seed/drive/platform/user-commandagi/hardware/ESP32-BLE-relay/firmware/firmware.tsx`
+(`cloud://home/user-commandagi/hardware/ESP32-BLE-relay/firmware`). That folder's `platformio.ini` builds this
+source for the product (env `commandagi-ble-hid-relay`), and the device definition `commandagi-ble-hid-relay` names
+it. When a change here changes a channel, change that file in the same step.
+
 ## License
 
 [MIT](LICENSE).
